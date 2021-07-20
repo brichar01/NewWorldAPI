@@ -6,7 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using NewWorldAPI.Configuration;
+using NewWorldAPI.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,14 @@ namespace NewWorldAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<ArticleDatabaseSettings>(
+                Configuration.GetSection(nameof(ArticleDatabaseSettings)));
+
+            services.AddSingleton<IArticleDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<ArticleDatabaseSettings>>().Value);
+
+            services.AddSingleton<ArticleDAO>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
