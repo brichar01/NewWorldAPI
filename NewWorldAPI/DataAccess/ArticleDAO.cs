@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
 using NewWorldAPI.Configuration;
 using NewWorldAPI.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NewWorldAPI.DataAccess
 {
@@ -11,7 +13,12 @@ namespace NewWorldAPI.DataAccess
 
         public ArticleDAO(IArticleDatabaseSettings articleDatabaseSettings)
         {
-            var client = new MongoClient(articleDatabaseSettings.ConnectionString);
+            var cert = new X509Certificate2(articleDatabaseSettings.ConnectionCertificate,
+                                            articleDatabaseSettings.ConnectionPassword);
+            var settings = MongoClientSettings.FromConnectionString(articleDatabaseSettings.ConnectionString);
+            settings.SslSettings = new SslSettings { ClientCertificates = new List<X509Certificate>() { cert } };
+
+            var client = new MongoClient(settings);
             var database = client.GetDatabase(articleDatabaseSettings.DatabaseName);
             _articles = database.GetCollection<Article>(articleDatabaseSettings.ArticleCollectionName);
         }

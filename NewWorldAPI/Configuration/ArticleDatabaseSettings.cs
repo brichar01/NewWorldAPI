@@ -10,6 +10,10 @@ namespace NewWorldAPI.Configuration
         public string ArticleCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
+        public string ConnectionCertificate { get; set; }
+        public string ConnectionPassword { get; set; }
+
+
     }
 
     public interface IArticleDatabaseSettings
@@ -17,5 +21,7 @@ namespace NewWorldAPI.Configuration
         string ArticleCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
+        public string ConnectionCertificate { get; set; }
+        public string ConnectionPassword { get; set; }
     }
 }

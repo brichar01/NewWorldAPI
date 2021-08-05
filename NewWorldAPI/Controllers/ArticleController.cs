@@ -5,7 +5,7 @@ using NewWorldAPI.DataAccess;
 namespace NewWorldAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]/{articleId}")]
+    [Route("article")]
     public class ArticleController : ControllerBase
     {
         private readonly ArticleDAO _articleDAO;
@@ -16,6 +16,7 @@ namespace NewWorldAPI.Controllers
         }
 
         [HttpGet]
+        [Route("{articleId}")]
         public Article Get(string articleId) =>
              _articleDAO.Get(articleId);
     }
