@@ -52,4 +52,4 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az container create --resource-group myResourceGroup --name mycontainer --image benrichards/newworldapi:${{ steps.time.outputs.time }} --dns-name-label newworldapi --ports 80
+          az container create --resource-group NewWorldAPIResourceGroup --name newworldapicontainer --image benrichards/newworldapi:${{ steps.time.outputs.time }} --dns-name-label newworldapi --ports 80
