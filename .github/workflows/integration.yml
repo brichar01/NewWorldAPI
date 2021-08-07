@@ -35,3 +35,24 @@ jobs:
         with:
           push: true
           tags: benrichards/newworldapi:${{ steps.time.outputs.time }}
+
+name: cd
+
+jobs:
+  deploy-to-azure-container:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Azure CLI script file
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az container create --resource-group myResourceGroup --name mycontainer --image benrichards/newworldapi:${{ steps.time.outputs.time }} --dns-name-label newworldapi --ports 80
