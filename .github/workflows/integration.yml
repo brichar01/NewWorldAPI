@@ -35,11 +35,7 @@ jobs:
         with:
           push: true
           tags: benrichards/newworldapi:${{ steps.time.outputs.time }}
-
-  deploy-to-azure-container:
-    needs: docker
-    runs-on: ubuntu-latest
-    steps: 
+          
     - name: Azure Login
       uses: azure/login@v1
       with:
