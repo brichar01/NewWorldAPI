@@ -37,7 +37,7 @@ namespace NewWorldAPI
                                   builder =>
                                   {
                                       builder.WithOrigins("*") //Configuration.GetSection("AllowedOrigins").Value
-                                             .WithHeaders("Content-Type"); 
+                                             .AllowAnyHeader(); 
                                   });
             });
 
