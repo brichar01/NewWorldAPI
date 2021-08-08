@@ -6,6 +6,7 @@ namespace NewWorldAPI.Controllers
 {
     [ApiController]
     [Route("article")]
+    [Produces("application/json")]
     public class ArticleController : ControllerBase
     {
         private readonly ArticleDAO _articleDAO;
