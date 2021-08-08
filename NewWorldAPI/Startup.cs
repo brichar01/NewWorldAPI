@@ -25,10 +25,20 @@ namespace NewWorldAPI
         }
 
         public IConfiguration Configuration { get; }
+        readonly string AllOrigins = "allOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("*");
+                                  });
+            });
 
             // requires using Microsoft.Extensions.Options
             services.Configure<ArticleDatabaseSettings>(
@@ -60,6 +70,7 @@ namespace NewWorldAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(AllOrigins);
 
             app.UseAuthorization();
 
