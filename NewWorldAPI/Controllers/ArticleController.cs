@@ -6,7 +6,6 @@ namespace NewWorldAPI.Controllers
 {
     [ApiController]
     [Route("article")]
-    [Produces("application/json")]
     public class ArticleController : ControllerBase
     {
         private readonly ArticleDAO _articleDAO;
@@ -18,6 +17,7 @@ namespace NewWorldAPI.Controllers
 
         [HttpGet]
         [Route("{articleId}")]
+        [Produces("application/json")]
         public Article Get(string articleId) =>
              _articleDAO.Get(articleId);
     }
