@@ -36,7 +36,8 @@ namespace NewWorldAPI
                 options.AddPolicy(name: AllOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("*");
+                                      builder.WithOrigins("*") //Configuration.GetSection("AllowedOrigins").Value
+                                             .WithHeaders("Content-Type"); 
                                   });
             });
 
