@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using NewWorldAPI.Configuration;
 using NewWorldAPI.Models;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ namespace NewWorldAPI.DataAccess
     public class ArticleDAO
     {
         private readonly IMongoCollection<Article> _articles;
+        private readonly BsonDocument summaryQuery = new BsonDocument
+        {
+
+        };
 
         public ArticleDAO(IArticleDatabaseSettings articleDatabaseSettings)
         {
@@ -26,6 +31,20 @@ namespace NewWorldAPI.DataAccess
         public Article Get(string articleId)
         {
             return _articles.Find(article => article.Id == articleId).FirstOrDefault<Article>();
+        }
+
+        public List<ArticleSummary> GetArticleSummaries(int pageNum, int pageSize)
+        {
+            return _articles.Aggregate().Sort(new BsonDocument { { "timestamp", -1 } })
+                                        .Limit(pageSize * ( pageNum - 1 ) + pageSize)
+                                        .Sort(new BsonDocument { { "timestamp", 1 } })
+                                        .Limit(pageSize)
+                                        .Project<ArticleSummary>(new BsonDocument { 
+                                            { "id", 1 },
+                                            { "timestamp", 1 },
+                                            { "authorId", 1 },
+                                            { "summary", 1  }
+                                        }).ToList();
         }
     }
 }
