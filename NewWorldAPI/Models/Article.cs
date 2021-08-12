@@ -9,6 +9,7 @@ namespace NewWorldAPI.Models
 {
     public class Article : ArticleSummary
     {
+        [BsonElement("articleContent")]
         public string ArticleContent { get; set; }
     }
 }
